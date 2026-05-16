@@ -2,8 +2,8 @@
 <html lang="ru">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Анкета здоровья</title>
 
   <style>
@@ -100,32 +100,84 @@
       color: red;
       text-align: center;
     }
+
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      margin-left: 6px;
+      color: #2563eb;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tooltip-text {
+      visibility: hidden;
+      width: 240px;
+      background-color: #222;
+      color: #fff;
+      text-align: left;
+      padding: 10px;
+      border-radius: 8px;
+
+      position: absolute;
+      z-index: 1;
+      top: 25px;
+      left: 0;
+
+      opacity: 0;
+      transition: opacity 0.2s;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
   </style>
 </head>
 
 <body>
 
   <div class="container">
+
     <h1>Анкета здоровья</h1>
 
     <div class="field">
       <label>Заболевание</label>
+
       <select id="disease">
-        <option value="cardiovascular">Сердечно-сосудистые заболевания</option>
-        <option value="lung_cancer">Рак лёгких</option>
-        <option value="hypertension">Артериальная гипертензия</option>
-        <option value="obesity">Ожирение</option>
-        <option value="ckd">ХБП</option>
+        <option value="cardiovascular">
+          Сердечно-сосудистые заболевания
+        </option>
+
+        <option value="lung_cancer">
+          Рак лёгких
+        </option>
+
+        <option value="hypertension">
+          Артериальная гипертензия
+        </option>
+
+        <option value="obesity">
+          Ожирение
+        </option>
+
+        <option value="ckd">
+          ХБП
+        </option>
       </select>
     </div>
 
     <div class="field">
       <label>Возраст</label>
-      <input type="number" id="age" value="50">
+
+      <input type="number" min="0" id="age" value="50">
     </div>
 
     <div class="field">
       <label>Пол</label>
+
       <select id="sex">
         <option value="1">Мужчина</option>
         <option value="0">Женщина</option>
@@ -133,17 +185,34 @@
     </div>
 
     <div class="field">
-      <label>BMI</label>
-      <input type="number" step="0.1" id="bmi" value="27">
+      <label>
+        BMI
+
+        <span class="tooltip">
+          ⓘ
+
+          <span class="tooltip-text">
+            BMI (Body Mass Index) —
+            индекс массы тела.
+
+            Формула:
+            вес (кг) / рост² (м)
+          </span>
+        </span>
+      </label>
+
+      <input type="number" step="0.1" min="0" id="bmi" value="27">
     </div>
 
     <div class="field">
       <label>Систолическое давление</label>
-      <input type="number" id="systolic" value="120">
+
+      <input type="number" min="0" id="systolic" value="120">
     </div>
 
     <div class="field">
       <label>Курение</label>
+
       <select id="smoking">
         <option value="0">Нет</option>
         <option value="1">Да</option>
@@ -152,6 +221,7 @@
 
     <div class="field">
       <label>Диабет</label>
+
       <select id="diabetes">
         <option value="0">Нет</option>
         <option value="1">Да</option>
@@ -160,11 +230,13 @@
 
     <div class="field">
       <label>Холестерин</label>
-      <input type="number" step="0.1" id="cholesterol" value="5.5">
+
+      <input type="number" step="0.1" min="0" id="cholesterol" value="5.5">
     </div>
 
     <div class="field">
       <label>Физическая активность</label>
+
       <select id="physical_activity">
         <option value="0">Нет</option>
         <option value="1">Низкая</option>
@@ -173,9 +245,12 @@
       </select>
     </div>
 
-    <button onclick="submitForm()">Рассчитать риск</button>
+    <button onclick="submitForm()">
+      Рассчитать риск
+    </button>
 
     <div class="result" id="result">
+
       <h2>Результат</h2>
 
       <div class="percent" id="percent"></div>
@@ -189,6 +264,7 @@
   </div>
 
   <script>
+
     async function submitForm() {
 
       const payload = {
@@ -200,7 +276,9 @@
         smoking: Number(document.getElementById("smoking").value),
         diabetes: Number(document.getElementById("diabetes").value),
         cholesterol: Number(document.getElementById("cholesterol").value),
-        physical_activity: Number(document.getElementById("physical_activity").value)
+        physical_activity: Number(
+          document.getElementById("physical_activity").value
+        )
       };
 
       const resultBlock = document.getElementById("result");
@@ -211,13 +289,16 @@
 
       try {
 
-        const response = await fetch("http://localhost:8080/predict", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
+        const response = await fetch(
+          "http://localhost:8080/predict",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          }
+        );
 
         const data = await response.json();
 
@@ -229,7 +310,7 @@
           data.probability_percent + "%";
 
         document.getElementById("risk").innerText =
-          "Шанс заболевания: " + data.risk_category;
+          "Категория риска: " + data.risk_category;
 
         document.getElementById("diseaseName").innerText =
           "Заболевание: " + data.disease;
@@ -240,6 +321,7 @@
         errorBlock.innerText = err.message;
       }
     }
+
   </script>
 
 </body>
