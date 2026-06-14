@@ -2,327 +2,338 @@
 <html lang="ru">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Анкета здоровья</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Анкета здоровья</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2966/2966486.png">
 
-    body {
-      margin: 0;
-      background: #f4f7fb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-    .container {
-      width: 100%;
-      max-width: 520px;
-      background: white;
-      padding: 30px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    }
+        body {
+            margin: 0;
+            background: #f4f7fb;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #222;
-    }
+        .container {
+            width: 100%;
+            max-width: 520px;
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .1);
+            margin: 30px 0;
+        }
 
-    .field {
-      margin-bottom: 16px;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      color: #444;
-    }
+        .field {
+            margin-bottom: 16px;
+        }
 
-    input,
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 15px;
-    }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
 
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
 
-    button:hover {
-      background: #1d4ed8;
-    }
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    .result {
-      margin-top: 25px;
-      padding: 18px;
-      border-radius: 10px;
-      background: #eef4ff;
-      display: none;
-    }
+        button:hover {
+            background: #1d4ed8;
+        }
 
-    .result h2 {
-      margin-top: 0;
-    }
+        .result {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 10px;
+            background: #eef4ff;
+            display: none;
+            text-align: center;
+        }
 
-    .percent {
-      font-size: 32px;
-      font-weight: bold;
-      color: #2563eb;
-    }
+        .face {
+            font-size: 70px;
+            margin-bottom: 10px;
+        }
 
-    .risk {
-      font-size: 18px;
-      margin-top: 10px;
-    }
+        .percent {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2563eb;
+        }
 
-    .error {
-      margin-top: 20px;
-      color: red;
-      text-align: center;
-    }
+        .risk {
+            font-size: 18px;
+            margin-top: 10px;
+        }
 
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      margin-left: 6px;
-      color: #2563eb;
-      cursor: pointer;
-      font-weight: bold;
-    }
+        .error {
+            margin-top: 20px;
+            color: red;
+            text-align: center;
+        }
 
-    .tooltip-text {
-      visibility: hidden;
-      width: 240px;
-      background-color: #222;
-      color: #fff;
-      text-align: left;
-      padding: 10px;
-      border-radius: 8px;
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 6px;
+            color: #2563eb;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-      position: absolute;
-      z-index: 1;
-      top: 25px;
-      left: 0;
+        .tooltip-text {
+            visibility: hidden;
+            width: 240px;
+            background: #222;
+            color: #fff;
+            text-align: left;
+            padding: 10px;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 1;
+            top: 25px;
+            left: 0;
+            opacity: 0;
+            transition: .2s;
+            font-size: 13px;
+        }
 
-      opacity: 0;
-      transition: opacity 0.2s;
-      font-size: 13px;
-      line-height: 1.4;
-    }
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
 
-    .tooltip:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-  </style>
+        footer {
+            width: 100%;
+            text-align: center;
+            background: #1e293b;
+            color: white;
+            padding: 20px;
+            margin-top: auto;
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="container">
+    <div class="container">
 
-    <h1>Анкета здоровья</h1>
+        <h1>Анкета здоровья</h1>
 
-    <div class="field">
-      <label>Заболевание</label>
+        <div class="field">
+            <label>Заболевание</label>
+            <select id="disease" onchange="toggleCancerTypes()">
+                <option value="cardiovascular">Сердечно-сосудистые заболевания</option>
+                <option value="hypertension">Артериальная гипертензия</option>
+                <option value="obesity">Ожирение</option>
+                <option value="ckd">ХБП</option>
+                <option value="stroke">Инсульт</option>
+                <option value="copd">ХОБЛ</option>
+                <option value="liver_cirrhosis">Цирроз печени</option>
+                <option value="osteoporosis">Остеопороз</option>
+                <option value="cancer">Онкологические заболевания</option>
+            </select>
+        </div>
 
-      <select id="disease">
-        <option value="cardiovascular">
-          Сердечно-сосудистые заболевания
-        </option>
+        <div class="field" id="cancerBlock" style="display:none;">
+            <label>Тип рака</label>
+            <select id="cancerType">
+                <option value="lung_cancer">Рак лёгких</option>
+                <option value="stomach_cancer">Рак желудка</option>
+                <option value="colorectal_cancer">Рак толстой кишки</option>
+                <option value="bladder_cancer">Рак мочевого пузыря</option>
+                <option value="pancreatic_cancer">Рак поджелудочной железы</option>
+            </select>
+        </div>
 
-        <option value="lung_cancer">
-          Рак лёгких
-        </option>
+        <div class="field">
+            <label>Возраст</label>
+            <input type="number" min="0" id="age" value="50">
+        </div>
 
-        <option value="hypertension">
-          Артериальная гипертензия
-        </option>
+        <div class="field">
+            <label>Пол</label>
+            <select id="sex">
+                <option value="1">Мужчина</option>
+                <option value="0">Женщина</option>
+            </select>
+        </div>
 
-        <option value="obesity">
-          Ожирение
-        </option>
+        <div class="field">
+            <label>BMI
+                <span class="tooltip">ⓘ
+                    <span class="tooltip-text">
+                        BMI = вес (кг) / рост² (м)
+                    </span>
+                </span>
+            </label>
+            <input type="number" step="0.1" min="0" id="bmi" value="27">
+        </div>
 
-        <option value="ckd">
-          ХБП
-        </option>
-      </select>
+        <div class="field">
+            <label>Систолическое давление</label>
+            <input type="number" min="0" id="systolic" value="120">
+        </div>
+
+        <div class="field">
+            <label>Курение</label>
+            <select id="smoking">
+                <option value="0">Нет</option>
+                <option value="1">Да</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Диабет</label>
+            <select id="diabetes">
+                <option value="0">Нет</option>
+                <option value="1">Да</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Холестерин</label>
+            <input type="number" step="0.1" min="0" id="cholesterol" value="5.5">
+        </div>
+
+        <div class="field">
+            <label>Физическая активность</label>
+            <select id="physical_activity">
+                <option value="0">Нет</option>
+                <option value="1">Низкая</option>
+                <option value="2">Средняя</option>
+                <option value="3">Высокая</option>
+            </select>
+        </div>
+
+        <button onclick="submitForm()">Рассчитать риск</button>
+
+        <div class="result" id="result">
+            <div id="face" class="face">🙂</div>
+            <h2>Результат</h2>
+            <div class="percent" id="percent"></div>
+            <div class="risk" id="risk"></div>
+            <div id="diseaseName"></div>
+        </div>
+
+        <div class="error" id="error"></div>
+
     </div>
 
-    <div class="field">
-      <label>Возраст</label>
+    <footer>
+        <p><strong>© 2026 Система оценки рисков заболеваний</strong></p>
+        <p>
+            Сервис носит ознакомительный характер и не заменяет консультацию врача.
+        </p>
 
-      <input type="number" min="0" id="age" value="50">
-    </div>
 
-    <div class="field">
-      <label>Пол</label>
+        <p>
+            Контакты:
+            📧 alaudin2002@gmail.com |
+            📞 +7 (985) 690-54-45
+        </p>
 
-      <select id="sex">
-        <option value="1">Мужчина</option>
-        <option value="0">Женщина</option>
-      </select>
-    </div>
+    </footer>
 
-    <div class="field">
-      <label>
-        BMI
-
-        <span class="tooltip">
-          ⓘ
-
-          <span class="tooltip-text">
-            BMI (Body Mass Index) —
-            индекс массы тела.
-
-            Формула:
-            вес (кг) / рост² (м)
-          </span>
-        </span>
-      </label>
-
-      <input type="number" step="0.1" min="0" id="bmi" value="27">
-    </div>
-
-    <div class="field">
-      <label>Систолическое давление</label>
-
-      <input type="number" min="0" id="systolic" value="120">
-    </div>
-
-    <div class="field">
-      <label>Курение</label>
-
-      <select id="smoking">
-        <option value="0">Нет</option>
-        <option value="1">Да</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Диабет</label>
-
-      <select id="diabetes">
-        <option value="0">Нет</option>
-        <option value="1">Да</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Холестерин</label>
-
-      <input type="number" step="0.1" min="0" id="cholesterol" value="5.5">
-    </div>
-
-    <div class="field">
-      <label>Физическая активность</label>
-
-      <select id="physical_activity">
-        <option value="0">Нет</option>
-        <option value="1">Низкая</option>
-        <option value="2">Средняя</option>
-        <option value="3">Высокая</option>
-      </select>
-    </div>
-
-    <button onclick="submitForm()">
-      Рассчитать риск
-    </button>
-
-    <div class="result" id="result">
-
-      <h2>Результат</h2>
-
-      <div class="percent" id="percent"></div>
-
-      <div class="risk" id="risk"></div>
-
-      <div id="diseaseName"></div>
-    </div>
-
-    <div class="error" id="error"></div>
-  </div>
-
-  <script>
-
-    async function submitForm() {
-
-      const payload = {
-        disease: document.getElementById("disease").value,
-        age: Number(document.getElementById("age").value),
-        sex: Number(document.getElementById("sex").value),
-        bmi: Number(document.getElementById("bmi").value),
-        systolic: Number(document.getElementById("systolic").value),
-        smoking: Number(document.getElementById("smoking").value),
-        diabetes: Number(document.getElementById("diabetes").value),
-        cholesterol: Number(document.getElementById("cholesterol").value),
-        physical_activity: Number(
-          document.getElementById("physical_activity").value
-        )
-      };
-
-      const resultBlock = document.getElementById("result");
-      const errorBlock = document.getElementById("error");
-
-      resultBlock.style.display = "none";
-      errorBlock.innerText = "";
-
-      try {
-
-        const response = await fetch(
-          "http://localhost:8080/predict",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-          }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || "Ошибка сервера");
+    <script>
+        function toggleCancerTypes() {
+            document.getElementById("cancerBlock").style.display =
+                document.getElementById("disease").value === "cancer"
+                    ? "block"
+                    : "none";
         }
 
-        document.getElementById("percent").innerText =
-          data.probability_percent + "%";
+        async function submitForm() {
 
-        document.getElementById("risk").innerText =
-          "Категория риска: " + data.risk_category;
+            const diseaseValue =
+                document.getElementById("disease").value === "cancer"
+                    ? document.getElementById("cancerType").value
+                    : document.getElementById("disease").value;
 
-        document.getElementById("diseaseName").innerText =
-          "Заболевание: " + data.disease;
+            const payload = {
+                disease: diseaseValue,
+                age: Number(document.getElementById("age").value),
+                sex: Number(document.getElementById("sex").value),
+                bmi: Number(document.getElementById("bmi").value),
+                systolic: Number(document.getElementById("systolic").value),
+                smoking: Number(document.getElementById("smoking").value),
+                diabetes: Number(document.getElementById("diabetes").value),
+                cholesterol: Number(document.getElementById("cholesterol").value),
+                physical_activity: Number(document.getElementById("physical_activity").value)
+            };
 
-        resultBlock.style.display = "block";
+            const resultBlock = document.getElementById("result");
+            const errorBlock = document.getElementById("error");
 
-      } catch (err) {
-        errorBlock.innerText = err.message;
-      }
-    }
+            resultBlock.style.display = "none";
+            errorBlock.innerText = "";
 
-  </script>
+            try {
+
+                const response = await fetch("http://localhost:8080/predict", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Ошибка сервера");
+                }
+
+                const p = data.probability_percent;
+
+                let emoji = "😁";
+                if (p >= 30) emoji = "😟";
+                else if (p >= 20) emoji = "😐";
+                else if (p >= 10) emoji = "🙂";
+
+                document.getElementById("face").innerText = emoji;
+                document.getElementById("percent").innerText = p + "%";
+                document.getElementById("risk").innerText = "Категория риска: " + data.risk_category;
+                document.getElementById("diseaseName").innerText = "Заболевание: " + data.disease;
+
+                resultBlock.style.display = "block";
+
+            } catch (err) {
+                errorBlock.innerText = err.message;
+            }
+        }
+    </script>
 
 </body>
 
